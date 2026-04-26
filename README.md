@@ -1,4 +1,4 @@
-markdown_content = """# K-Nearest Neighbors (KNN) on Diabetes Dataset
+# K-Nearest Neighbors (KNN) on Diabetes Dataset
 **Members:** Felix Joseph Dinopol, Christian Jay Lucañas, John Kierve Gardonia
 **Subject:** Computational Science
 
@@ -116,4 +116,3 @@ One of the best things about KNN is how simple and interpretable it is. Since it
 But we also hit some pretty brutal limitations. The biggest takeaway was that KNN is insanely sensitive to data scaling. As our boxplot animations showed, if we hadn't used Min-Max normalization, the algorithm would have been useless. Unscaled data means big numbers (like Glucose) completely erase the impact of smaller but critical numbers (like the Pedigree Function). Also, the computation cost is a pain. Since it doesn't "train" an equation in advance, it has to calculate the physical distance to every single training instance every time it tries to make a new prediction.
 
 In the end, KNN is great for smaller, properly scaled datasets where being able to explain the "why" is super important. But for massive datasets or real-time systems that need instant answers, a model like Logistic Regression (which beat our KNN model with 76.62% accuracy) is definitely the better and faster choice.
-"""

@@ -22,10 +22,10 @@ We worked with a dataset containing 768 patient records. Here is a quick breakdo
 * **Predictive Importance:** Clinically speaking, Glucose is the biggest red flag for diagnosing diabetes. BMI, Age, and the Diabetes Pedigree Function are also super important. We made a correlation heatmap to back this up mathematically, and Glucose definitely had the highest positive correlation with the Outcome.
 * **Problematic Data:** When we first looked at the data, a bunch of biological features (like Glucose, Blood Pressure, SkinThickness, Insulin, and BMI) had values of 0. Since a living person can't have zero blood pressure or a zero BMI, it was pretty obvious these were just missing values hiding as zeroes.
 
-![Glucose Distribution](./assets/glucose-dist.png)
+![Glucose Distribution](./knn/assets/glucose-dist.png)
 *Part 1: Glucose Distribution by Outcome*
 
-![Feature Correlation Heatmap](./assets/heatmap.png)
+![Feature Correlation Heatmap](./knn/assets/heatmap.png)
 *Part 1: Feature Correlation Heatmap*
 
 ## Part 2: Data Preprocessing
@@ -46,7 +46,7 @@ Here is how the data looked before and after we cleaned it up:
 | **Insulin** | 30.5 | 125.0 | 0.0 to 1.0 |
 | **BMI** | 32.0 | 32.3 | 0.0 to 1.0 |
 
-![Normalization Progress](./assets/scaling_transition_fixed.gif)
+![Normalization Progress](./knn/assets/scaling_transition_fixed.gif)
 *Part 2: Normalization Progress: Unscaled to Standardized*
 
 ## Part 3: KNN Implementation & Manual Computation
@@ -88,13 +88,13 @@ We tested the algorithm using K=3, K=5, and K=7. Just for the bonus, we also ran
 | **KNN (K = 7)** | **74.68%** | 34 | 18 | 81 | 21 |
 | **Logistic Regression** | 76.62% | 35 | 16 | 83 | 20 |
 
-![Model Performance Evolution](./assets/accuracy_evolution.gif)
+![Model Performance Evolution](./knn/assets/accuracy_evolution.gif)
 *Part 4: Model Performance Evolution*
 
-![Confusion Matrix](./assets/confusion_matrix_animated.gif)
+![Confusion Matrix](./knn/assets/confusion_matrix_animated.gif)
 *Part 4: Confusion Matrix for K=7*
 
-![KNN Decision Boundary](./assets/knn_boundaries.gif)
+![KNN Decision Boundary](./knn/assets/knn_boundaries.gif)
 *Part 4: KNN Decision Boundary*
 
 ### Evaluation Questions:

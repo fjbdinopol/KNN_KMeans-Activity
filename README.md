@@ -1,5 +1,5 @@
 # K-Nearest Neighbors (KNN) on Diabetes Dataset
-**Members:** Felix Joseph Dinopol, Christian Jay Lucañas, John Kierve Gardonia
+**Members:** Felix Joseph Dinopol, Christian Jay Lucañas, John Kierve Gardonia  
 **Subject:** Computational Science
 
 ## Objective Overview

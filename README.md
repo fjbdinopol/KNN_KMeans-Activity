@@ -1,6 +1,6 @@
 # Machine Learning Analysis using K-Nearest Neighbors and K-Means
 
-**Course:** Computational Science
+**Course:** Computational Science  
 **Members:** Felix Joseph Dinopol, Christian Jay Lucañas, John Kierve Gardonia  
 
 ---

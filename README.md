@@ -1,6 +1,275 @@
-# K-Nearest Neighbors (KNN) on Diabetes Dataset
+# Machine Learning Analysis using K-Nearest Neighbors and K-Means
+
+**Course:** Computational Science
 **Members:** Felix Joseph Dinopol, Christian Jay Lucañas, John Kierve Gardonia  
-**Subject:** Computational Science
+
+---
+
+## Abstract
+
+This project presents a comprehensive implementation of machine learning techniques using both a custom dataset and a real-world dataset. Two primary algorithms are explored: K-Nearest Neighbors (KNN) for classification and K-Means Clustering for unsupervised grouping.
+
+The study is divided into three major parts. The first part applies KNN to classify player roles based on performance metrics. The second part applies K-Means clustering to discover natural groupings within the same dataset. The third part extends the analysis using a real-world diabetes dataset, incorporating preprocessing, manual computation, and model evaluation.
+
+---
+
+## 1. Introduction
+
+Machine learning provides computational methods for analyzing patterns in data and making informed predictions. Among the most fundamental algorithms are K-Nearest Neighbors (KNN) and K-Means Clustering.
+
+KNN is a supervised learning algorithm that classifies new data points based on similarity to labeled data. In contrast, K-Means is an unsupervised learning algorithm that groups data points into clusters without prior labels.
+
+This report demonstrates both approaches using a custom dataset and extends the analysis to a real-world medical dataset to highlight practical applications and challenges.
+
+---
+
+## 2. Dataset Overview
+
+### 2.1 Player Performance Dataset
+
+| ADR | Headshot_Percentage | Role |
+| --- | ------------------- | ---- |
+| 95  | 65                  | 1    |
+| 88  | 60                  | 1    |
+| 102 | 68                  | 1    |
+| 90  | 62                  | 1    |
+| 85  | 55                  | 1    |
+| 60  | 30                  | 0    |
+| 65  | 35                  | 0    |
+| 55  | 25                  | 0    |
+| 70  | 40                  | 0    |
+| 58  | 28                  | 0    |
+
+### Feature Description
+
+* ADR: Average Damage per Round
+* Headshot Percentage: Accuracy
+* Role:
+
+  * 1 = Aggressive Player
+  * 0 = Passive Player
+
+The dataset is intentionally balanced to avoid bias during classification.
+
+---
+
+# PART I — K-NEAREST NEIGHBORS (KNN)
+
+## 3. Objective
+
+The objective is to classify a new player based on similarity to existing players using the KNN algorithm.
+
+---
+
+## 4. Methodology
+
+### 4.1 Distance Metric
+
+KNN relies on Euclidean distance:
+
+```id="eq_knn"
+d = √((x₂ - x₁)² + (y₂ - y₁)²)
+```
+
+Where:
+
+* x represents ADR
+* y represents Headshot Percentage
+
+---
+
+## 5. New Data Point
+
+| ADR | Headshot_Percentage | Role    |
+| --- | ------------------- | ------- |
+| 92  | 64                  | Unknown |
+
+---
+
+## 6. Distance Computation (Full Process)
+
+Distances were calculated between the new player and all dataset entries.
+
+### Example Computation
+
+```id="eq_knn_ex"
+d = √((92 - 95)² + (64 - 65)²)
+  = √(9 + 1)
+  = √10
+  = 3.16
+```
+
+### Full Distance Table
+
+| Player   | Role | Distance |
+| -------- | ---- | -------- |
+| (90,62)  | 1    | 2.83     |
+| (95,65)  | 1    | 3.16     |
+| (88,60)  | 1    | 5.66     |
+| (102,68) | 1    | 10.77    |
+| (85,55)  | 1    | 11.40    |
+| (70,40)  | 0    | 33.94    |
+| (65,35)  | 0    | 40.31    |
+| (60,30)  | 0    | 47.43    |
+| (58,28)  | 0    | 48.17    |
+| (55,25)  | 0    | 53.04    |
+
+Each computation reinforces how distance reflects similarity between players.
+
+---
+
+## 7. Sorting and Neighbor Selection
+
+Distances are sorted in ascending order. The closest points are:
+
+| Rank | Player  | Role | Distance |
+| ---- | ------- | ---- | -------- |
+| 1    | (90,62) | 1    | 2.83     |
+| 2    | (95,65) | 1    | 3.16     |
+| 3    | (88,60) | 1    | 5.66     |
+
+---
+
+## 8. K Selection and Voting
+
+We select:
+
+```id="k_value"
+K = 3
+```
+
+### Voting Results
+
+| Role | Count |
+| ---- | ----- |
+| 1    | 3     |
+| 0    | 0     |
+
+---
+
+## 9. Classification Result
+
+```id="knn_result"
+Predicted Role = 1 (Aggressive)
+```
+
+The classification is highly reliable due to unanimous agreement among nearest neighbors.
+
+---
+
+## 10. Visualization and Interpretation
+
+![KNN Scatter Plot](./knn-kmeans/assets/knn_scatter.png)
+
+![KNN Distance Graph](./knn-kmeans/assets/knn_distances.png)
+
+![KNN Neighbors](./knn-kmeans/assets/knn_neighbors.png)
+
+The visualizations confirm that the new player lies within a dense region of aggressive players.
+
+---
+
+## 11. Observations
+
+* KNN effectively captures local similarity
+* Balanced dataset improves reliability
+* Distance-based logic is intuitive and interpretable
+* Model performance depends on value of K
+
+---
+
+# PART II — K-MEANS CLUSTERING
+
+## 12. Objective
+
+To group players into clusters based on similarity without using labels.
+
+---
+
+## 13. Methodology
+
+### 13.1 Data Representation
+
+Each player is treated as a coordinate:
+
+```id="point_rep"
+P = (ADR, Headshot%)
+```
+
+---
+
+### 13.2 Initialization
+
+```id="kmeans_k"
+K = 2
+```
+
+Initial centroids:
+
+* C₁ = (95, 65)
+* C₂ = (60, 30)
+
+---
+
+## 14. Distance Computation and Assignment
+
+Each point is assigned to the nearest centroid.
+
+Example:
+
+```id="assign_ex"
+Point (88,60):
+d₁ = 8.60
+d₂ = 41.23
+→ Assigned to Cluster 1
+```
+
+---
+
+## 15. Centroid Recalculation
+
+```id="centroid_formula"
+C = (mean x, mean y)
+```
+
+New centroids:
+
+| Cluster   | Centroid     |
+| --------- | ------------ |
+| Cluster 1 | (92, 62)     |
+| Cluster 2 | (61.6, 31.6) |
+
+---
+
+## 16. Iteration Process
+
+Steps repeated:
+
+1. Assign clusters
+2. Recalculate centroids
+
+Convergence occurs when no changes are observed.
+
+---
+
+## 17. Visualization
+
+![K-Means Initial](./knn-kmeans/assets/kmeans_clusters.png)
+
+![K-Means Final](./knn-kmeans/assets/kmeans_final.png)
+
+---
+
+## 18. Observations
+
+* Clear separation of high and low performance players
+* Cluster centroids represent average performance
+* Results depend on initialization
+* Algorithm is efficient for pattern discovery
+
+---
+
+# K-Nearest Neighbors (KNN) on Diabetes Dataset
 
 ## Objective Overview
 This project is all about applying the K-Nearest Neighbors (KNN) algorithm to predict diabetes outcomes using clinical metrics. We went through the whole process: exploring the data, cleaning it up (preprocessing), doing some manual math to see how the algorithm actually works under the hood, and finally evaluating the model. As a bonus, we also threw in a Logistic Regression model just to see how KNN stacks up against it.
@@ -22,10 +291,10 @@ We worked with a dataset containing 768 patient records. Here is a quick breakdo
 * **Predictive Importance:** Clinically speaking, Glucose is the biggest red flag for diagnosing diabetes. BMI, Age, and the Diabetes Pedigree Function are also super important. We made a correlation heatmap to back this up mathematically, and Glucose definitely had the highest positive correlation with the Outcome.
 * **Problematic Data:** When we first looked at the data, a bunch of biological features (like Glucose, Blood Pressure, SkinThickness, Insulin, and BMI) had values of 0. Since a living person can't have zero blood pressure or a zero BMI, it was pretty obvious these were just missing values hiding as zeroes.
 
-![Glucose Distribution](./knn/assets/glucose-dist.png)
+![Glucose Distribution](./knn-kmeans/assets/glucose-dist.png)
 *Part 1: Glucose Distribution by Outcome*
 
-![Feature Correlation Heatmap](./knn/assets/heatmap.png)
+![Feature Correlation Heatmap](./knn-kmeans/assets/heatmap.png)
 *Part 1: Feature Correlation Heatmap*
 
 ## Part 2: Data Preprocessing
@@ -46,7 +315,7 @@ Here is how the data looked before and after we cleaned it up:
 | **Insulin** | 30.5 | 125.0 | 0.0 to 1.0 |
 | **BMI** | 32.0 | 32.3 | 0.0 to 1.0 |
 
-![Normalization Progress](./knn/assets/scaling_transition_fixed.gif)
+![Normalization Progress](./knn-kmeans/assets/scaling_transition_fixed.gif)
 *Part 2: Normalization Progress: Unscaled to Standardized*
 
 ## Part 3: KNN Implementation & Manual Computation
@@ -88,13 +357,13 @@ We tested the algorithm using K=3, K=5, and K=7. Just for the bonus, we also ran
 | **KNN (K = 7)** | **74.68%** | 34 | 18 | 81 | 21 |
 | **Logistic Regression** | 76.62% | 35 | 16 | 83 | 20 |
 
-![Model Performance Evolution](./knn/assets/accuracy_evolution.gif)
+![Model Performance Evolution](./knn-kmeans/assets/accuracy_evolution.gif)
 *Part 4: Model Performance Evolution*
 
-![Confusion Matrix](./knn/assets/confusion_matrix_animated.gif)
+![Confusion Matrix](./knn-kmeans/assets/confusion_matrix_animated.gif)
 *Part 4: Confusion Matrix for K=7*
 
-![KNN Decision Boundary](./knn/assets/knn_boundaries.gif)
+![KNN Decision Boundary](./knn-kmeans/assets/knn_boundaries.gif)
 *Part 4: KNN Decision Boundary*
 
 ### Evaluation Questions:
@@ -116,3 +385,11 @@ One of the best things about KNN is how simple and interpretable it is. Since it
 But we also hit some pretty brutal limitations. The biggest takeaway was that KNN is insanely sensitive to data scaling. As our boxplot animations showed, if we hadn't used Min-Max normalization, the algorithm would have been useless. Unscaled data means big numbers (like Glucose) completely erase the impact of smaller but critical numbers (like the Pedigree Function). Also, the computation cost is a pain. Since it doesn't "train" an equation in advance, it has to calculate the physical distance to every single training instance every time it tries to make a new prediction.
 
 In the end, KNN is great for smaller, properly scaled datasets where being able to explain the "why" is super important. But for massive datasets or real-time systems that need instant answers, a model like Logistic Regression (which beat our KNN model with 76.62% accuracy) is definitely the better and faster choice.
+
+---
+
+## Conclusion
+
+This project successfully demonstrates the application of KNN and K-Means using both synthetic and real-world datasets.
+
+KNN effectively classified new instances based on similarity, while K-Means revealed meaningful groupings. The extended activity reinforced the importance of preprocessing, parameter tuning, and evaluation in machine learning workflows.
